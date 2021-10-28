@@ -1,13 +1,86 @@
-
 <template>
   <div>
     <div class="container-fluid" id="container-wrapper">
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">POS Dashboard</h1>
+        <h1 class="h3 mb-0 text-gray-800">POS Peminjaman</h1>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="./">Home</a></li>
           <li class="breadcrumb-item active" aria-current="page">POS</li>
         </ol>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12">
+          <div class="card mb-4">
+            <div class="card-footer">
+              <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Peminjaman Alat / Bahan</h1>
+              </div>
+              <form
+                class="user"
+                @submit.prevent="orderdone"
+                enctype="multipart/form-data"
+              >
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-md-6">
+                      <label>Praktikum</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="form.praktikum"
+                      />
+                      <label>Nama koordinator</label>
+                      <!-- <input type="text" class="form-control" v-model="form.customer_id" /> -->
+                      <select class="form-control" v-model="form.customer_id">
+                        <option
+                          :value="customer.id"
+                          v-for="customer in customers"
+                          :key="customer.id"
+                        >
+                          {{ customer.name }}
+                        </option>
+                      </select>
+                      <label>Nim</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="form.nim"
+                      />
+                      <label>Kelas</label>
+                      <input
+                        value="kelas"
+                        type="text"
+                        class="form-control"
+                        v-model="form.kelas"
+                      />
+                    </div>
+                    <div class="col-md-6">
+                      <label>Smester/TA</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="form.semester"
+                      />
+                      <label>Tanggal Pinjam</label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        v-model="form.tanggal_pinjam"
+                      />
+                      <label>Tanggal Kembali</label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        v-model="form.tanggal_kembali"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="row mb-3">
@@ -23,26 +96,22 @@
                 align-items-center
                 justify-content-between
               "
-            >
-              <h6 class="m-0 font-weight-bold text-primary">Expense Insert</h6>
-              <router-link to="/store-customer" class="btn btn-sm btn-info">
-                <font color="#ffffff">Add Customer</font>
-              </router-link>
-            </div>
-
+            ></div>
             <div class="table-responsive" style="font-size: 12px">
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th>Name</th>
-                    <th>Qty</th>
-                    <th>Unit</th>
-                    <th>Total</th>
+                    <th>No</th>
+                    <th>Nama Alat</th>
+                    <th>Jumlah</th>
+                    <th>Keterangan</th>
+                    <th>Paraf</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="cart in carts" :key="cart.id">
+                  <tr v-for="(cart, index) in carts" :key="cart.id">
+                    <td>{{ index + 1 }}</td>
                     <td>{{ cart.pro_name }}</td>
                     <td>
                       <input
@@ -68,8 +137,16 @@
                         -
                       </button>
                     </td>
-                    <td>{{ cart.product_price }}</td>
-                    <td>{{ cart.sub_total }}</td>
+                    <td>
+                      <input
+                        type="text"
+                        placeholder="keterangan"
+                        class="form-control"
+                        style="width: 120px"
+                        v-model="cart.keterangan"
+                      />
+                    </td>
+                    <td>{{ cart.Paraf }}</td>
                     <td>
                       <a
                         @click="removeItem(cart.id)"
@@ -82,69 +159,18 @@
               </table>
             </div>
             <div class="card-footer">
-              <ul class="list-group">
-                <li
-                  class="
-                    list-group-item
-                    d-flex
-                    justify-content-between
-                    align-items-center
-                  "
-                >
-                  Total Quantity:
-                  <strong>{{ qty }}</strong>
-                </li>
-                <li
-                  class="
-                    list-group-item
-                    d-flex
-                    justify-content-between
-                    align-items-center
-                  "
-                >
-                  Sub Total:
-                  <strong>{{ subtotal }} $</strong>
-                </li>
-
-                <li
-                  class="
-                    list-group-item
-                    d-flex
-                    justify-content-between
-                    align-items-center
-                  "
-                >
-                  Vat:
-                  <strong>{{ vats.vat }} %</strong>
-                </li>
-                <li
-                  class="
-                    list-group-item
-                    d-flex
-                    justify-content-between
-                    align-items-center
-                  "
-                >
-                  Total :
-                  <strong
-                    >{{ (subtotal * vats.vat) / 100 + subtotal }} $</strong
-                  >
-                </li>
-              </ul>
               <br />
-
               <form @submit.prevent="orderdone">
-                <label>Customer Name</label>
+                <!-- <label>Peminjam</label>
                 <select class="form-control" v-model="customer_id">
                   <option
                     :value="customer.id"
                     v-for="customer in customers"
-                    :key="customer.id"
+                    :key="customer"
                   >
                     {{ customer.name }}
                   </option>
                 </select>
-
                 <label>Pay</label>
                 <input
                   type="text"
@@ -152,7 +178,6 @@
                   required=""
                   v-model="pay"
                 />
-
                 <label>Due</label>
                 <input
                   type="text"
@@ -160,22 +185,19 @@
                   required=""
                   v-model="due"
                 />
-
                 <label>Pay By</label>
                 <select class="form-control" v-model="payby">
                   <option value="HandCash">Hand Cash</option>
                   <option value="Cheaque">Cheaque</option>
                   <option value="GiftCard">Gift Card</option>
                 </select>
-
-                <br />
+                <br /> -->
                 <button type="submit" class="btn btn-success">Submit</button>
               </form>
             </div>
           </div>
         </div>
         <!-- Pie Chart -->
-
         <div class="col-xl-7 col-lg-7">
           <div class="card mb-4">
             <div
@@ -188,9 +210,8 @@
                 justify-content-between
               "
             >
-              <h6 class="m-0 font-weight-bold text-primary">Products Sold</h6>
+              <h6 class="m-0 font-weight-bold text-primary"> Alat dan Bahan</h6>
             </div>
-
             <!--  Category Wise Product -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item">
@@ -202,10 +223,9 @@
                   role="tab"
                   aria-controls="home"
                   aria-selected="true"
-                  >All Product
+                  >All
                 </a>
               </li>
-
               <li
                 class="nav-item"
                 v-for="category in categories"
@@ -239,7 +259,6 @@
                     style="width: 560px"
                     placeholder="Search Product"
                   />
-
                   <div class="row">
                     <div
                       class="col-lg-3 col-md-3 col-sm-6 col-6"
@@ -279,7 +298,6 @@
                 </div>
               </div>
               <!--  End TBAS HOME -->
-
               <div
                 class="tab-pane fade"
                 id="profile"
@@ -293,7 +311,6 @@
                   style="width: 560px"
                   placeholder="Search Product"
                 />
-
                 <div class="row">
                   <div
                     class="col-lg-3 col-md-3 col-sm-6 col-6"
@@ -336,8 +353,8 @@
           </div>
         </div>
       </div>
-      <!--Row-->
     </div>
+    <!--Row-->
   </div>
 </template>
 
@@ -356,6 +373,7 @@ export default {
     this.allCategory();
     this.allCustomer();
     this.cartProduct();
+    // this.allCart();
     this.vat();
     Reload.$on("AfterAdd", () => {
       this.cartProduct();
@@ -363,22 +381,32 @@ export default {
   },
   data() {
     return {
-      customer_id: "",
+      form: {
+        praktikum: null,
+        customer_id: null,
+        nim: null,
+        kelas: null,
+        semester: null,
+        tanggal_pinjam: null,
+        tanggal_kembali: null,
+        keterangan: "",
+      },
+
       pay: "",
       due: "",
       payby: "",
-
+      customers: {},
       products: [],
       categories: "",
       getproducts: [],
       searchTerm: "",
       getsearchTerm: "",
-      customers: "",
       errors: "",
       carts: [],
       vats: "",
     };
   },
+
   computed: {
     filtersearch() {
       return this.products.filter((product) => {
@@ -419,6 +447,18 @@ export default {
         })
         .catch();
     },
+
+    // AddToOrder(id) {
+    //   axios
+    //     .get("/api/addToOrder/" + id, this.form)
+    //     .then(() => {
+    //       Reload.$emit("AfterAdd");
+    //       Notification.cart_success();
+    //     })
+    //     .catch();
+    // },
+
+    //menampilkan data
     cartProduct() {
       axios
         .get("/api/cart/product/")
@@ -463,7 +503,7 @@ export default {
       var data = {
         qty: this.qty,
         subtotal: this.subtotal,
-        customer_id: this.customer_id,
+        //   customer_id: this.customer_id,
         payby: this.payby,
         pay: this.pay,
         due: this.due,
@@ -471,12 +511,35 @@ export default {
         total: total,
       };
 
-      axios.post("/api/orderdone", data).then(() => {
-        Notification.success();
-        this.$router.push({ name: "home" });
-      });
+      // let data = {
+      //   praktikum: this.praktikum,
+      //   nama_koordinator: this.nama_koordinator,
+      //   nim: this.nim,
+      //   kelas: this.kelas,
+      //   semester: this.semester,
+      //   tanggal_pinjam: this.tanggal_pinjam,
+      //   tanggal_kembali: this.tanggal_kembali,
+      //   keteranagn: this.keterangan,
+      // };
+
+      // axios.post("/api/orderdone", this.form).then(() => {
+      //   Notification.success();
+      //   this.$router.push({ name: "order" });
+      // });
+
+      axios
+        .post("/api/pos", { ...this.form, chart: this.carts })
+        .then(() => {
+          Notification.success();
+          this.$router.push({ name: "order" });
+        })
+        .catch((error) => (this.errors = error.response.data.errors));
     },
 
+    // created(){
+    //   axios.get("/api/customer/")
+    //   .then(({data}) => (this.customers = data));
+    // },
     // End Cart Methods
     allProduct() {
       axios

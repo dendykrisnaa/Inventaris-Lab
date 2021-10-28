@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePosTable extends Migration
+class CreateOrderDonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreatePosTable extends Migration
      */
     public function up()
     {
-        Schema::create('pos', function (Blueprint $table) {
+        Schema::create('order_dons', function (Blueprint $table) {
             $table->id('id');
-            $table->integer('pro_id');
+            $table->integer('order_id')->nullable();
+            $table->integer('pro_id')->nullable();
             $table->string('pro_name')->nullable();
             $table->string('pro_quantity')->nullable();
             $table->string('product_price')->nullable();
@@ -32,6 +33,6 @@ class CreatePosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pos');
+        Schema::dropIfExists('order_dons');
     }
 }

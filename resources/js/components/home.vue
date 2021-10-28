@@ -145,7 +145,7 @@
               </thead>
               <tbody>
                 <tr v-for="(product, i) in products" :key="i">
-                  <td>{{ i }}</td>
+                  <td>{{ i + 1 }}</td>
                   <td>{{ product.product_name }}</td>
                   <td>{{ product.product_code }}</td>
                   <td><img :src="product.image" id="em_photo" /></td>

@@ -21,8 +21,8 @@ class PosController extends Controller
    public function OrderDone(Request $request){
 
    	 $validatedData = $request->validate([
-      'customer_id' => 'required',
-      'payby' => 'required',
+      // 'customer_id' => 'required',
+      // 'payby' => 'required',
    	 ]);
    
     $data = array();

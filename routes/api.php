@@ -22,6 +22,8 @@ Route::apiResource('/category', 'Api\CategoryController');
 Route::apiResource('/product', 'Api\ProductController');
 Route::apiResource('/expense', 'Api\ExpenseController');
 Route::apiResource('/customer', 'Api\CustomerController');
+Route::apiResource('/pos', 'Api\CartToPinjamController');
+Route::apiResource('/orderdetail', 'Api\OrderDetailController');
 
 Route::Post('/salary/paid/{id}', 'Api\SalaryController@Paid');
 Route::Get('/salary', 'Api\SalaryController@AllSalary');
@@ -45,6 +47,7 @@ Route::Get('/remove/cart/{id}', 'Api\CartController@removeCart');
 Route::Get('/increment/{id}', 'Api\CartController@increment');
 Route::Get('/decrement/{id}', 'Api\CartController@decrement');
 
+Route::Get('/addToOrder/{id}', 'Api\CartToOrderController@AddToOrder');
 // Vat Route
 Route::Get('/vats', 'Api\CartController@Vats');
 
@@ -55,6 +58,8 @@ Route::Get('/orders', 'Api\OrderController@TodayOrder');
 
 Route::Get('/order/details/{id}', 'Api\OrderController@OrderDetails');
 Route::Get('/order/orderdetails/{id}', 'Api\OrderController@OrderDetailsAll');
+// order detail
+Route::Get('/orderget', 'Api\CartToPinjamController@OrderGet');
 
 Route::Post('/search/order', 'Api\PosController@SearchOrderDate');
 
