@@ -9,12 +9,20 @@ Route::group([
 
 ], function ($router) {
 
-  Route::post('login', 'Api\Auth\AuthController@login');
-  Route::post('signup', 'Api\Auth\AuthController@signup');
+  Route::post('login', 'AuthController@login');
+  Route::post('signup', 'AuthController@signup');
   Route::post('logout', 'AuthController@logout');
   Route::post('refresh', 'AuthController@refresh');
   Route::post('me', 'AuthController@me');
 });
+
+//tambahan
+Route::post('/order/hapuspeminjaman', 'Api\OrderController@destroyPeminjaman');
+Route::post('/order/hapusdetail', 'Api\OrderController@destroyDetailPeminjaman');
+
+Route::post('/order/updatepeminjaman', 'Api\OrderController@updatePeminjaman');
+Route::post('/order/updatedetail', 'Api\OrderController@updateDetailPeminjaman');
+//
 
 Route::apiResource('/employee', 'Api\EmployeeController');
 Route::apiResource('/supplier', 'Api\SupplierController');
