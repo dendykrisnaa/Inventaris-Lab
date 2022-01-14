@@ -384,6 +384,7 @@ export default {
       form: {
         praktikum: null,
         customer_id: null,
+        dosen: null,
         nim: null,
         kelas: null,
         semester: null,
@@ -514,6 +515,7 @@ export default {
       // let data = {
       //   praktikum: this.praktikum,
       //   nama_koordinator: this.nama_koordinator,
+      //   dosen: this.dosen,
       //   nim: this.nim,
       //   kelas: this.kelas,
       //   semester: this.semester,

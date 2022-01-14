@@ -17,6 +17,7 @@ class CreatePinjamAlatsTable extends Migration
             $table->id('id');
             $table->string('praktikum')->nullable();
             $table->integer('customer_id');
+            $table->string('dosen')->nullable();
             $table->string('nim')->nullable();
             $table->string('kelas')->nullable();
             $table->string('semester')->nullable();

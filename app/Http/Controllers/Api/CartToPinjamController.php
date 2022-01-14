@@ -39,6 +39,7 @@ class CartToPinjamController extends Controller
         $pinjam = array();
         $pinjam['praktikum'] = $request->praktikum;
         $pinjam['customer_id'] = $request->customer_id;
+        $pinjam['dosen'] = $request->dosen;
         $pinjam['nim'] = $request->nim;
         $pinjam['kelas'] = $request->kelas;
         $pinjam['semester'] = $request->semester;
@@ -64,6 +65,8 @@ class CartToPinjamController extends Controller
         }
 
         return $pinjamalat;
+
+        return response()->json($pinjam,201);
     }
 
 
@@ -99,6 +102,8 @@ class CartToPinjamController extends Controller
      */
     public function destroy($id)
     {
+        $pinjam = DB::table('pinjam_alats')->where('id',$id)->delete();
+        return response()->json($pinjam,201);
     }
 
 

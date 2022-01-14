@@ -51,6 +51,7 @@ class OrderController extends Controller
       'id' => 'required',
       'praktikum' => 'required',
       'customer_id' => 'required',
+      'dosen' => 'required',
       'nim' => 'required',
       'kelas' => 'required',
       'semester' => 'required',
